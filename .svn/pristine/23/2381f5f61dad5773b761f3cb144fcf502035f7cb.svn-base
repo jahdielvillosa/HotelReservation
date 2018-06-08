@@ -1,0 +1,22 @@
+RoomCount 20
+101 Single 1 450 false alex 395645
+102 Single 1 450 false alex 395645 
+103 Single 1 450 true none 0 
+104 Single 1 450 true none 0 
+105 Single 1 450 true none 0  
+106 Single 1 450 true none 0 
+107 Single 1 450 true none 0 
+108 KingSize 1 950 true none 0 
+109 KingSize 1 950 true none 0 
+110 KingSize 1 950 true none 0 
+111 Twin 2 640 true none 0  
+112 Twin 2 640 true none 0  
+113 Twin 2 640 true none 0  
+114 Twin 2 640 true none 0  
+115 Triple 3 780 true none 0  
+111 Triple 3 780 true none 0  
+112 Triple 3 780 true none 0  
+113 Suite 2 1250 true none 0  
+114 Suite 2 1250 true none 0  
+115 Suite 3 1580 true none 0  
+roomNum type bes price availability currentguest guestID

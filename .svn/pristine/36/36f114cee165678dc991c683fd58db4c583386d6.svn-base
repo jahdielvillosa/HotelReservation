@@ -1,0 +1,18 @@
+
+package hotelreserve;
+
+import java.io.FileNotFoundException;
+
+public class HotelReserve{
+    public HotelReserve() {
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException{
+        
+        LoginFrame main = new LoginFrame(); //GUI class
+        main.displaylogin();
+        
+    }
+    
+
+}

@@ -1,0 +1,94 @@
+
+package hotelreserve;
+
+/**
+ * @author Villosa
+ */
+public class Room{
+    private int roomNumber; 
+    private String roomType;
+    private int roomBedNum;
+    private float roomPrice;
+    private boolean isAvailable;
+     private String occupant;
+    private int occupantID;
+    
+    public Room(){
+        roomType = null;
+        roomNumber = 101;
+        roomBedNum = 1;
+        occupant = "NONE";
+        roomPrice = 1500;
+        isAvailable = true;
+    }
+    
+    public int getRoomNum(){
+        return this.roomNumber;
+    }
+    
+     public boolean getStatus(){
+        return this.isAvailable;
+    }
+     
+    public int getroomBedNum(){
+         return this.roomBedNum;
+    }
+    public String getRoomType(){
+        return this.roomType;
+    }
+    
+    public float getRoomPrice(){
+        return this.roomPrice;
+    }
+    
+    public String getOccupant(){
+        return this.occupant;
+    }
+    
+     public int getOccupantID(){
+        return this.occupantID;
+    }
+    
+    public void setHotelRoom(int roomNum, String RoomType,int BedNum, float price){
+        this.roomNumber = roomNum;
+        this.roomType = RoomType;
+        this.roomBedNum = BedNum;
+        this.roomPrice = price;
+    }
+    
+    public void setHotelRoom(int roomNum, String RoomType,int BedNum, 
+            float price, boolean roomStatus, String Guest, int GuestID){
+        this.roomNumber = roomNum;
+        this.roomType = RoomType;
+        this.roomBedNum = BedNum;
+        this.roomPrice = price;
+        this.isAvailable = roomStatus;
+        this.occupant = Guest;
+        this.occupantID = GuestID;
+    }
+    
+    
+    public void setOccupant(String guestName){
+        this.occupant = guestName;
+    }
+    
+    public void setOccupantID(int ID){
+        this.occupantID = ID;
+    }
+    
+    public void setAvailability(boolean status){
+        this.isAvailable = status;
+    }
+
+    public void Display(){
+       System.out.println("ROOM NUM: " + this.roomNumber); 
+       System.out.println("ROOM type: " + this.roomType);
+       System.out.println("ROOM number of beds: " + this.roomBedNum);
+       System.out.println("ROOM price: " + this.roomPrice+"php");
+       System.out.println("Available: " + this.isAvailable);
+       System.out.println("Occupant: " + this.occupant);
+    }
+
+}
+
+    

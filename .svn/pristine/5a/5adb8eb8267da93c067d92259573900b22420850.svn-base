@@ -1,0 +1,58 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hotelreserve;
+
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.io.FileNotFoundException;
+import javax.swing.*;
+
+
+/**
+ * @author Villosa
+ */
+
+public class HotelReserve extends JFrame{
+    private ImageIcon extbot;
+    
+    public HotelReserve() {
+        displayBG();
+        pack();
+    }
+    
+    public static void main(String[] args) throws FileNotFoundException{
+        
+        LoginFrame main = new LoginFrame(); //GUI class
+        main.login();
+        HotelReserve midTown = new HotelReserve();
+    }
+    
+    public void displayBG(){
+        /*
+        extbot = new ImageIcon(getClass().getResource("/img/MidTown_bg.jpg"));
+        System.out.println("Welcom to MidTown Hotel Reservation System");
+        
+        JFrame mainframe = new JFrame();
+       // mainframe.setSize(1400, 750);
+        mainframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainframe.setVisible(true);
+        mainframe.setResizable(false);
+        
+        setUndecorated(false);
+        mainframe.setEnabled(false);
+        
+        JPanel p1 = new JPanel();
+        JLabel backPic = new JLabel();
+        
+        backPic.setIcon(extbot);
+        
+        p1.add(backPic);
+        p1.setSize(1400,750);
+        mainframe.add(p1);
+        */
+    }
+
+}

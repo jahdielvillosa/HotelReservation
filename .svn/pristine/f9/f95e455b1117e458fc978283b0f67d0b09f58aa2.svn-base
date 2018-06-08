@@ -1,0 +1,92 @@
+
+package hotelreserve;
+
+/**
+ * @author Villosa
+ */
+public class Client {
+    private String firstName,lastName;
+    private int stayDuration, myFee, AccountID,myRoomsCounter;
+    private String myRoomPreference;
+    private int[] myRoomsSelected = new int[5];
+    
+    public Client(){
+        firstName="firstname";
+        lastName ="lastname";
+        AccountID=0;
+    }
+    
+    public String getName(){
+        return lastName;
+    }
+    public String getfName(){
+        return this.firstName;
+    }
+    public int getStayDuration(){
+        return this.stayDuration;
+    }
+    public int getMyFee(){
+        return this.myFee;
+    }
+    public int getAccountID(){
+        return this.AccountID;
+    }
+    
+    public String getPref(){
+        return this.myRoomPreference;
+    }
+    
+    public int[] getRoomSelected(){
+        return this.myRoomsSelected;
+    }
+    
+    public int getmyRoomsCounter(){
+        return this.myRoomsCounter;
+    }
+     
+    public void setName(String fname,String lname){
+        firstName = fname;
+        lastName = lname;
+    }
+    
+    public void setnewGuest(String fname,String lname, int userID){
+        firstName = fname;
+        lastName = lname;
+        AccountID = userID;
+    }
+    
+    public void setPreference(String room){
+        this.myRoomPreference = room;
+    }
+    
+    public void setID(int userID){
+        AccountID = userID;
+    }
+    
+     
+    public void setSelectedRoom(int RoomNum ){
+        myRoomsSelected[myRoomsCounter] = RoomNum;
+        myRoomsCounter++;
+    }
+    
+    public void setRoomCounter(int count){
+        myRoomsCounter = count;
+    }
+    
+    public void dispGuest(){
+        System.out.println("GuestName: " + this.lastName);
+        System.out.println("ID: " + this.AccountID);
+        dispAssignedRoom();
+    }
+    
+    public void dispAssignedRoom(){
+        System.out.println("Selected Rooms: ");
+        for(int i=0;i<myRoomsCounter;i++){
+            System.out.print(myRoomsSelected[i]+","); 
+        }
+        System.out.println();
+    }
+    
+    
+    
+}

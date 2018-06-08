@@ -1,0 +1,314 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hotelreserve;
+
+import java.io.*;
+import java.io.PrintWriter;
+import java.util.Scanner;
+
+/**
+ * @author Villosa
+ */
+
+//ReadFile inherits variables of HotelReserve Class
+public class Hotel{
+    
+    //CLASS VARIABLES
+    private static Room[] myHotel = new Room[20];
+    protected static Client[] guest = new Client[10];
+    protected static int guestIndex;
+    
+    //room preference variables
+    protected int[] roomNumResult = new int[20];
+    protected int[] myRoomNumResult = new int[20];
+    protected static String roomTypeResult;
+    protected static int rooomBedResult,resultCount;
+    protected static float roomPriceResult=0;
+    protected static String startMonth, startDay, startYear;
+    protected static String endMonth, endDay, endYear;
+    
+    //Guest variables
+    private String name,mname, lname,birthMonth,guestBuffer;
+    private int age,userID,guestCounter;
+    private String birthDay, birthYear;
+    private String mobileNum,emailAdd;
+    
+    //Room variables
+    private static int roomCounter;
+    private int roomNum,bedsNum,currentGuestID;
+    private float roomPrice;
+    private boolean roomAvailability;
+    private String roomType, currentGuest, roomBuffer;
+    private final int SearhRoomCounter = 5;
+   
+    //File Input/Output variables
+    private Scanner inFile ;
+    private Scanner inFileRoom ;
+    PrintWriter outFile ;
+    
+    public Hotel(){
+        
+    }
+    
+    //START OF THE CLASS METHODS
+    public void getDataFromFile() throws FileNotFoundException{
+        inFile = new Scanner(new FileReader("hotelaccounts.dat"));
+        inFileRoom = new Scanner(new FileReader("hotel.dat"));
+        this.getGuestData();
+        this.getHotelRoomsData();
+        //this.displayAll();
+        //this.displayAllRooms();
+        inFile.close();
+        inFileRoom.close();
+    }
+    
+    public void getGuestData(){
+        guestBuffer = inFile.next();
+        guestCounter = inFile.nextInt();
+        
+        for(int i=0;i<guestCounter;i++){
+            guest[i] = new Client();
+            userID = inFile.nextInt();
+            name = inFile.next();
+            mname = inFile.next();
+            lname = inFile.next();
+            birthMonth = inFile.next();
+            birthDay = inFile.next();
+            birthYear = inFile.next();
+            mobileNum = inFile.next();
+            emailAdd = inFile.next();
+            
+            guest[i].setnewGuest(name, mname, lname, userID,
+                    birthMonth, birthDay, birthYear, mobileNum, 
+                    emailAdd );
+        }
+    }
+    
+    public boolean setGuestData(int accountpin,  String firstname,
+            String midname, String lastname, String bmonth,String bday, String byear, 
+            String mobileNumber, String email) throws IOException{
+            
+            guest[guestCounter] = new Client();
+            guest[guestCounter].setnewGuest(firstname, midname, lastname, 
+                    accountpin, bmonth, bday, byear, mobileNumber, email);
+           System.out.println ("Count: " + guestCounter);
+           incrementGuestCounter(); 
+           saveGuestDataToFile();
+           this.displayAll();
+           incrementGuestCounter(); 
+           
+           return true;
+    }
+    
+    public void saveGuestDataToFile() throws IOException{
+        outFile = new PrintWriter("hotelaccounts.dat");
+        outFile.println ("Count " + guestCounter);
+        for(int i=0;i<guestCounter;i++){
+            
+            outFile.println(guest[i].getAccountID() + " " + guest[i].getfName() 
+                    + " " + guest[i].getMName() + " " + guest[i].getName() + " " 
+                    + guest[i].getBday() + " " + guest[i].getMobileNum() + " " 
+                    + guest[i].getEmail());
+        }
+        
+        outFile.close();
+    }
+    
+    public void displayAll(){
+        System.out.println("guestCounter: " + guestCounter);
+        for(int i=0;i<guestCounter;i++){
+           guest[i].dispGuest();
+       }
+    }
+    
+    public void getHotelRoomsData(){
+        roomBuffer = inFileRoom.next();
+        roomCounter = inFileRoom.nextInt();
+        
+        for(int i=0;i<roomCounter;i++){
+            myHotel[i] = new Room();
+            roomNum = inFileRoom.nextInt();
+            roomType = inFileRoom.next();
+            bedsNum = inFileRoom.nextInt();
+            roomPrice = inFileRoom.nextFloat();
+            roomAvailability = inFileRoom.nextBoolean();
+            currentGuest = inFileRoom.next();
+            currentGuestID = inFileRoom.nextInt();
+            myHotel[i].setHotelRoom(roomNum, roomType, bedsNum, 
+                    roomPrice, roomAvailability, currentGuest, 
+                    currentGuestID);
+        }
+    }
+    
+    public void displayAllRooms(){
+        for(int i=0;i<roomCounter;i++){
+           myHotel[i].Display();
+           System.out.println();
+       }
+    }
+    
+    public void setGuestCounter(int newCount){
+        guestCounter = newCount;
+    }
+    
+    public int getGuestCounter(){
+        return guestCounter;
+    }
+    
+    public void incrementGuestCounter(){
+        guestCounter++;
+    }
+    
+    public boolean checkLogin(String loginName, int loginID){
+        
+        for(int i=0;i<guestCounter;i++){
+            if(loginName.equals(guest[i].getName()) && loginID == (guest[i].getAccountID())){
+                guestIndex = i;
+                return true;
+            }else{
+                //Do nothing
+            }
+        }
+        System.out.println(guestIndex);
+        return false;
+    }
+    
+    public int getID(){
+        return guest[guestIndex].getAccountID();
+    }
+    
+    public String getGuestName(){
+        System.out.println("Guest: " + guest[guestIndex].getName());
+        return guest[guestIndex].getName();
+    }
+    
+    public void setPrefRoom(String room){
+          guest[guestIndex].setPreference(room);
+    }
+    
+    public void setPrefStartDate(String sMonth, String sDay, String sYear){
+          System.out.println("Date Start: "+ sMonth + " "+sDay+","+sYear);
+          startMonth = sMonth;
+          startDay = sDay;
+          startYear = sYear;
+    }
+    
+    public void setPrefEndDate(String eMonth, String eDay, String eYear){
+          System.out.println("Date End: "+ eMonth + " "+eDay+","+eYear);
+          endMonth = eMonth;
+          endDay = eDay;
+          endYear = eYear;
+    }
+    
+    //Search Result methods
+    public void dispRoomNum(){
+        System.out.print("Available Rooms: ");
+        for(int i=0;i<SearhRoomCounter;i++){
+            System.out.print(roomNumResult[i]+", ");
+        }
+         System.out.println();
+    }
+ 
+    public void getRoomNumberbyPref(){
+        System.out.println("Room Results: ");
+            int i=0;
+            for(int i2=0;i2<20;i2++){
+                if(guest[guestIndex].getPref().contentEquals(myHotel[i2].getRoomType())){
+                    
+                    System.out.print(myHotel[i2].getRoomType()+": ");
+                    System.out.print(i2+", ");
+                    if(myHotel[i2].getStatus()){ // if room status (availability) is true     
+                        roomNumResult[i] = myHotel[i2].getRoomNum();
+                        roomTypeResult = myHotel[i2].getRoomType();
+                        rooomBedResult = myHotel[i2].getroomBedNum();
+                        roomPriceResult = myHotel[i2].getRoomPrice();
+                        i++;
+                    }else{
+                       
+                        System.out.println("Room "+myHotel[i2].getRoomNum()+" not available");
+
+                    }
+                }
+            }
+            System.out.println("");
+            resultCount = i;
+    }
+    
+    public void setSelectedRoomOnGuest(int roomNumber, boolean buttonStatus){
+        guest[guestIndex].setSelectedRoom(roomNumber,buttonStatus);
+    }
+    public void setSelectedRoomOnGuest(int roomNumber){
+        guest[guestIndex].setSelectedRoom(roomNumber);
+    }
+
+    public void getGuestInfo(){
+        guest[guestIndex].dispGuest();
+    }
+    
+    public int[] getGuestSelRooms(){
+        return guest[guestIndex].getRoomSelected();
+    }
+    
+    //CONFIRM FRAME Methods
+    public int getSelectedRoomsCounter(){
+        return guest[guestIndex].getmyRoomsCounter();
+    }
+    
+    public String getSelectedRoomType(){
+        
+        System.out.println("roomTypeResult:" + guest[guestIndex].getPref());
+        return guest[guestIndex].getPref();
+    }
+    
+    public float getSelectedRoomPrice(){
+        return roomPriceResult;
+    }
+    
+    public void setRoomCounter(int count){
+        guest[guestIndex].setRoomCounter(count);
+    }
+    
+    public void setMyRoomReservationOK() throws FileNotFoundException{
+        int guestID = guest[guestIndex].getAccountID();
+        int selRoomCount = getSelectedRoomsCounter();
+        int[] tempRooms = getGuestSelRooms();
+        
+        System.out.println("Saving reservation");//new line
+        System.out.println("Guest ID:" + guestID);
+        
+        //Searching the reserved room number in the hotel rooms
+        for(int i=0;i<selRoomCount;i++){
+            for(int i2=0;i2<roomCounter;i2++){
+                if(myHotel[i2].getRoomNum() == tempRooms[i]){
+                    System.out.println("Room Found:"+tempRooms[i]); // test
+                    myHotel[i2].setOccupantID(guestID);
+                    myHotel[i2].setAvailability(false);
+                    myHotel[i2].setOccupant(guest[guestIndex].getName());
+                }
+            }
+            
+        }
+        roomsSaveOnFile();
+    }
+    
+    //save reservation into the file
+    private void roomsSaveOnFile() throws FileNotFoundException{
+        //this.displayAllRooms();
+        
+        outFile = new PrintWriter("hotel.dat");
+        outFile.println ("Count " + roomCounter);
+        
+        for(int i=0;i<roomCounter;i++){
+            outFile.println(myHotel[i].getRoomNum() + " " + myHotel[i].getRoomType()+
+                     " " + myHotel[i].getroomBedNum() + " " + myHotel[i].getRoomPrice() +
+                     " " + myHotel[i].getStatus() + " " + myHotel[i].getOccupant() + 
+                     " " + myHotel[i].getOccupantID());
+        }
+        outFile.close();
+        this.displayAllRooms();
+        
+    }
+}

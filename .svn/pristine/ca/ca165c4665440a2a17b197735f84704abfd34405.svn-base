@@ -1,0 +1,215 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package hotelreserve;
+
+import java.io.*;
+import java.io.PrintWriter;
+import java.util.Scanner;
+/**
+ *
+ * @author Villosa
+ */
+
+//ReadFile inherits variables of HotelReserve Class
+public class Hotel{
+    
+    //CLASS VARIABLES
+    private static Room[] myHotel = new Room[20];
+    protected static Client[] guest = new Client[10];
+    protected static int guestIndex;
+    
+    //room preference variables
+    protected int[] roomNumResult = new int[20];
+    protected static String roomTypeResult;
+    protected static int rooomBedResult,resultCount;
+    protected static float roomPriceResult=0;
+    protected static String startMonth, startDay, startYear;
+    protected static String endMonth, endDay, endYear;
+    
+   
+    //Guest properties
+    private String name, lname,guestBuffer;
+    private int age,userID,guestCounter;
+    
+    //Room properties
+    private int roomNum,bedsNum,roomCounter,currentGuestID;
+    private float roomPrice;
+    private boolean roomAvailability;
+    private String roomType, currentGuest, roomBuffer;
+   
+    //File Input/Output
+    private Scanner inFile ;
+    private Scanner inFileRoom ;
+    
+    
+    public Hotel(){
+        
+    }
+    
+    //START OF THE CLASS METHODS
+    public void getDataFromFile() throws FileNotFoundException{
+        inFile = new Scanner(new FileReader("guest.dat"));
+        inFileRoom = new Scanner(new FileReader("hotel.dat"));
+        this.getGuestData();
+        this.getHotelRoomsData();
+        //this.displayAll();
+        //this.displayAllRooms();
+        inFile.close();
+        inFileRoom.close();
+    }
+    
+    public void getGuestData(){
+        guestBuffer = inFile.next();
+        guestCounter = inFile.nextInt();
+        
+        for(int i=0;i<guestCounter;i++){
+            guest[i] = new Client();
+            name = inFile.next();
+            lname = inFile.next();
+            age = inFile.nextInt();
+            userID = inFile.nextInt();
+            guest[i].setnewGuest(name, lname, userID);
+        }
+    }
+    
+    public void displayAll(){
+        for(int i=0;i<guestCounter;i++){
+           System.out.print("Account " +i+" "+guest[i].getName()+" ");
+           System.out.println(guest[i].getAccountID());
+       }
+    }
+    
+    
+    
+    public void getHotelRoomsData(){
+        roomBuffer = inFileRoom.next();
+        roomCounter = inFileRoom.nextInt();
+        
+        for(int i=0;i<roomCounter;i++){
+            myHotel[i] = new Room();
+            roomNum = inFileRoom.nextInt();
+            roomType = inFileRoom.next();
+            bedsNum = inFileRoom.nextInt();
+            roomPrice = inFileRoom.nextInt();
+            roomAvailability = inFileRoom.nextBoolean();
+            currentGuest = inFileRoom.next();
+            currentGuestID = inFileRoom.nextInt();
+            myHotel[i].setHotelRoom(roomNum, roomType, bedsNum, roomPrice);
+        }
+    }
+    
+     
+    public void displayAllRooms(){
+        for(int i=0;i<roomCounter;i++){
+           myHotel[i].Display();
+           System.out.println();
+       }
+    }
+    
+    public boolean checkLogin(String loginName, int loginID){
+        
+        for(int i=0;i<5;i++){
+            if(loginName.equals(guest[i].getName()) && loginID == (guest[i].getAccountID())){
+                guestIndex = i;
+                return true;
+            }else{
+                //Do nothing
+            }
+        }
+        System.out.println(guestIndex);
+        return false;
+    }
+    
+    public int getID(){
+        return guest[guestIndex].getAccountID();
+    }
+    
+    public String getGuestName(){
+        System.out.println("Guest: " + guest[guestIndex].getName());
+        return guest[guestIndex].getName();
+    }
+    
+    public void setPrefRoom(String room){
+          guest[guestIndex].setPreference(room);
+    }
+    
+    public void setPrefStartDate(String sMonth, String sDay, String sYear){
+          System.out.println("Date Start: "+ sMonth + " "+sDay+","+sYear);
+          startMonth = sMonth;
+          startDay = sDay;
+          startYear = sYear;
+    }
+    
+    public void setPrefEndDate(String eMonth, String eDay, String eYear){
+          System.out.println("Date End: "+ eMonth + " "+eDay+","+eYear);
+          endMonth = eMonth;
+          endDay = eDay;
+          endYear = eYear;
+    }
+    
+    //Search Result methods
+    public void dispRoomNum(){
+        System.out.print("Available Rooms: ");
+        for(int i=0;i<5;i++){
+            System.out.print(roomNumResult[i]+", ");
+        }
+         System.out.println();
+    }
+ 
+    public void getRoomNumberbyPref(){
+        System.out.println("Room Results: ");
+            int i=0;
+            for(int i2=0;i2<20;i2++){
+                if(guest[guestIndex].getPref().contentEquals(myHotel[i2].getRoomType())){
+                    
+                    System.out.print(myHotel[i2].getRoomType()+": ");
+                    System.out.print(i2+", ");
+                    
+                    roomNumResult[i] = myHotel[i2].getRoomNum();
+                    roomTypeResult = myHotel[i2].getRoomType();
+                    rooomBedResult = myHotel[i2].getroomBedNum();
+                    roomPriceResult = myHotel[i2].getRoomPrice();
+                            
+                    i++;
+                }
+            }
+            System.out.println("");
+            resultCount = i;
+    }
+    
+    public void setSelectedRoomOnGuest(int roomNumber){
+        guest[guestIndex].setSelectedRoom(roomNumber);
+    }
+
+    public void getGuestInfo(){
+        guest[guestIndex].dispGuest();
+    }
+    
+    public int[] getGuestSelRooms(){
+        return guest[guestIndex].getRoomSelected();
+    }
+    
+    //CONFIRM FRAME Methods
+    public int getSelectedRoomsCounter(){
+        return guest[guestIndex].getmyRoomsCounter();
+    }
+    
+    public String getSelectedRoomType(){
+        
+        System.out.println("roomTypeResult:" + guest[guestIndex].getPref());
+        return guest[guestIndex].getPref();
+    }
+    
+    public float getSelectedRoomPrice(){
+        return roomPriceResult;
+    }
+    
+    public void setRoomCounter(int count){
+        guest[guestIndex].setRoomCounter(count);
+    }
+    
+    
+}
